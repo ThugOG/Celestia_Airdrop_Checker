@@ -80,40 +80,44 @@
 
 // export default AddressAmountLookup;
 
-
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
 function TokenAmountLookup() {
-  const [address, setAddress] = useState('');
-  const [amount, setAmount] = useState('');
+  const [address, setAddress] = useState("");
+  const [amount, setAmount] = useState("");
 
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
   };
 
   const handleLookup = () => {
-    fetch('https://raw.githubusercontent.com/ThugOG/Celestia_Airdrop_Checker/master/OB.csv')
+    fetch(
+      "https://raw.githubusercontent.com/ThugOG/Celestia_Airdrop_Checker/master/OB.csv"
+    )
       .then((response) => response.text())
       .then((data) => {
-        const lines = data.split('\n');
+        const lines = data.split("\n");
         for (let i = 1; i < lines.length; i++) {
-          const [csvAddress, csvAmount] = lines[i].split(',');
+          const [csvAddress, csvAmount] = lines[i].split(",");
           if (csvAddress === address) {
-            const parsedAmount = parseInt(csvAmount, 10) / 10**6;
+            const parsedAmount = parseInt(csvAmount, 10) / 10 ** 6;
             setAmount(parsedAmount);
             return;
           }
         }
-        setAmount('Address not found');
+        setAmount("Address not found");
       })
       .catch((error) => {
-        console.error('Error fetching CSV data:', error);
+        console.error("Error fetching CSV data:", error);
       });
   };
 
   return (
     <div className="token-amount-lookup">
+      <div className="header">
+        <h1>Celestia Drop Check</h1>
+      </div>
       <label>
         Address:
         <input type="text" value={address} onChange={handleAddressChange} />

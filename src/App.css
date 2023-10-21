@@ -1,3 +1,6 @@
+body{
+  font-family: "Poppins", sans-serif;
+}
 .token-amount-lookup {
   display: flex;
   flex-direction: column;
@@ -10,8 +13,9 @@
 }
 
 .token-amount-lookup input {
-  padding: 5px;
+  padding: 10px; /* Increase the padding to make the text box bigger */
   margin-left: 5px;
+  width: 300px; /* Adjust the width to your desired size */
 }
 
 .token-amount-lookup button {
@@ -28,4 +32,66 @@
 
 .token-amount-lookup p {
   margin-top: 10px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.token-amount-lookup {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.token-amount-lookup {
+  animation: slideIn 1s ease-in;
+}
+
+.token-amount-lookup button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in;
+}
+
+.token-amount-lookup button:hover {
+  background-color: #0056b3;
+}
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to right, violet, purple);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header h1 {
+  font-size: 48px;
+  font-weight: bold;
 }
