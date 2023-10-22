@@ -142,3 +142,32 @@ body{
   padding: 10px;
   text-align: center;
 }
+
+/* CSS for smartphones */
+/* CSS for smartphones */
+/* CSS for smartphones */
+@media only screen and (max-width: 600px) {
+  .token-amount-lookup {
+    padding: 10px;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .result-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .result-table th,
+  .result-table td {
+    font-size: 14px;
+    padding: 6px;
+  }
+}

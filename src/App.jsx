@@ -132,7 +132,11 @@ function TokenAmountLookup() {
       </div>
       <label>
         Enter your Celestia addresses(one per line):
-        <textarea value={addresses.join("\n")} onChange={handleAddressChange} placeholder="celestia1...."/>
+        <textarea
+          value={addresses.join("\n")}
+          onChange={handleAddressChange}
+          placeholder="celestia1...."
+        />
       </label>
       <button onClick={handleLookup}>Lookup</button>
       {amounts.length > 0 ? (
@@ -148,9 +152,13 @@ function TokenAmountLookup() {
             <tbody>
               {addresses.map((address, index) => {
                 const amount = amounts[index];
+                const shortenedAddress =
+                  window.innerWidth <= 600
+                    ? `${address.slice(0, 5)}...${address.slice(-5)}`
+                    : address;
                 return (
                   <tr key={index}>
-                    <td>{address}</td>
+                    <td>{shortenedAddress}</td>
                     <td>
                       {amount !== -1 ? `${amount} TIA` : "Address not found"}
                     </td>
