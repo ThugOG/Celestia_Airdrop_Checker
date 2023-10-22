@@ -136,3 +136,9 @@ body{
 .result-table td:last-child {
   text-align: right;
 }
+
+.footer {
+  background-color: #f2f2f2;
+  padding: 10px;
+  text-align: center;
+}

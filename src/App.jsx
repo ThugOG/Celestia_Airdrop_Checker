@@ -101,20 +101,22 @@ function TokenAmountLookup() {
         const lines = data.split("\n");
         const newAddresses = [];
         const newAmounts = [];
-        let addressFound = false;
+        const foundAddresses = new Set();
         for (let i = 1; i < lines.length; i++) {
           const [csvAddress, csvAmount] = lines[i].split(",");
           const parsedAmount = parseInt(csvAmount, 10) / 10 ** 6;
           if (addresses.includes(csvAddress)) {
             newAddresses.push(csvAddress);
             newAmounts.push(parsedAmount);
-            addressFound = true;
+            foundAddresses.add(csvAddress);
           }
         }
-        if (!addressFound) {
-          newAddresses.push(csvAddress);
-          newAmounts.push(-1);
-        }
+        addresses.forEach((address) => {
+          if (!foundAddresses.has(address)) {
+            newAddresses.push(address);
+            newAmounts.push(-1);
+          }
+        });
         setAddresses(newAddresses);
         setAmounts(newAmounts);
       })
@@ -129,8 +131,8 @@ function TokenAmountLookup() {
         <h1>Celestia Drop Check</h1>
       </div>
       <label>
-        Addresses (one per line):
-        <textarea value={addresses.join("\n")} onChange={handleAddressChange} />
+        Enter your Celestia addresses(one per line):
+        <textarea value={addresses.join("\n")} onChange={handleAddressChange} placeholder="celestia1...."/>
       </label>
       <button onClick={handleLookup}>Lookup</button>
       {amounts.length > 0 ? (
@@ -161,6 +163,9 @@ function TokenAmountLookup() {
       ) : (
         <p>No amounts to display.</p>
       )}
+      <footer className="footer">
+        Created by <a href="https://github.com/ThugOG">0xThug</a>
+      </footer>
     </div>
   );
 }
