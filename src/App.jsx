@@ -93,34 +93,35 @@ function TokenAmountLookup() {
   };
 
   const handleLookup = () => {
-    fetch('https://raw.githubusercontent.com/ThugOG/Celestia_Airdrop_Checker/master/OB.csv')
+    fetch(
+      "https://raw.githubusercontent.com/ThugOG/Celestia_Airdrop_Checker/master/OB.csv"
+    )
       .then((response) => response.text())
       .then((data) => {
-        const lines = data.split('\n');
+        const lines = data.split("\n");
         const newAddresses = [];
         const newAmounts = [];
+        let addressFound = false;
         for (let i = 1; i < lines.length; i++) {
-          const [csvAddress, csvAmount] = lines[i].split(',');
+          const [csvAddress, csvAmount] = lines[i].split(",");
           const parsedAmount = parseInt(csvAmount, 10) / 10 ** 6;
           if (addresses.includes(csvAddress)) {
             newAddresses.push(csvAddress);
             newAmounts.push(parsedAmount);
-          } else {
-            const addressIndex = addresses.indexOf(csvAddress);
-            if (addressIndex !== -1) {
-              newAddresses.push(addresses[addressIndex]);
-              newAmounts.push(parsedAmount);
-            }
+            addressFound = true;
           }
+        }
+        if (!addressFound) {
+          newAddresses.push(csvAddress);
+          newAmounts.push(-1);
         }
         setAddresses(newAddresses);
         setAmounts(newAmounts);
       })
       .catch((error) => {
-        console.error('Error fetching CSV data:', error);
+        console.error("Error fetching CSV data:", error);
       });
   };
-          
 
   return (
     <div className="token-amount-lookup">
@@ -132,7 +133,7 @@ function TokenAmountLookup() {
         <textarea value={addresses.join("\n")} onChange={handleAddressChange} />
       </label>
       <button onClick={handleLookup}>Lookup</button>
-      {amounts.length > 0 && (
+      {amounts.length > 0 ? (
         <div>
           <h2>Amounts:</h2>
           <table className="result-table">
@@ -143,15 +144,22 @@ function TokenAmountLookup() {
               </tr>
             </thead>
             <tbody>
-              {amounts.map((amount, index) => (
-                <tr key={index}>
-                  <td>{addresses[index]}</td>
-                  <td>{amount} TIA</td>
-                </tr>
-              ))}
+              {addresses.map((address, index) => {
+                const amount = amounts[index];
+                return (
+                  <tr key={index}>
+                    <td>{address}</td>
+                    <td>
+                      {amount !== -1 ? `${amount} TIA` : "Address not found"}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
+      ) : (
+        <p>No amounts to display.</p>
       )}
     </div>
   );
