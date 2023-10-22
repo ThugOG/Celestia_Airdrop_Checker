@@ -84,34 +84,43 @@ import React, { useState } from "react";
 import "./App.css";
 
 function TokenAmountLookup() {
-  const [address, setAddress] = useState("");
-  const [amount, setAmount] = useState("");
+  const [addresses, setAddresses] = useState([]);
+  const [amounts, setAmounts] = useState([]);
 
   const handleAddressChange = (event) => {
-    setAddress(event.target.value);
+    const inputAddresses = event.target.value.split("\n");
+    setAddresses(inputAddresses);
   };
 
   const handleLookup = () => {
-    fetch(
-      "https://raw.githubusercontent.com/ThugOG/Celestia_Airdrop_Checker/master/OB.csv"
-    )
+    fetch('https://raw.githubusercontent.com/ThugOG/Celestia_Airdrop_Checker/master/OB.csv')
       .then((response) => response.text())
       .then((data) => {
-        const lines = data.split("\n");
+        const lines = data.split('\n');
+        const newAddresses = [];
+        const newAmounts = [];
         for (let i = 1; i < lines.length; i++) {
-          const [csvAddress, csvAmount] = lines[i].split(",");
-          if (csvAddress === address) {
-            const parsedAmount = parseInt(csvAmount, 10) / 10 ** 6;
-            setAmount(parsedAmount);
-            return;
+          const [csvAddress, csvAmount] = lines[i].split(',');
+          const parsedAmount = parseInt(csvAmount, 10) / 10 ** 6;
+          if (addresses.includes(csvAddress)) {
+            newAddresses.push(csvAddress);
+            newAmounts.push(parsedAmount);
+          } else {
+            const addressIndex = addresses.indexOf(csvAddress);
+            if (addressIndex !== -1) {
+              newAddresses.push(addresses[addressIndex]);
+              newAmounts.push(parsedAmount);
+            }
           }
         }
-        setAmount("Address not found");
+        setAddresses(newAddresses);
+        setAmounts(newAmounts);
       })
       .catch((error) => {
-        console.error("Error fetching CSV data:", error);
+        console.error('Error fetching CSV data:', error);
       });
   };
+          
 
   return (
     <div className="token-amount-lookup">
@@ -119,11 +128,31 @@ function TokenAmountLookup() {
         <h1>Celestia Drop Check</h1>
       </div>
       <label>
-        Address:
-        <input type="text" value={address} onChange={handleAddressChange} />
+        Addresses (one per line):
+        <textarea value={addresses.join("\n")} onChange={handleAddressChange} />
       </label>
       <button onClick={handleLookup}>Lookup</button>
-      {amount && <p>Amount: {amount}</p>}
+      {amounts.length > 0 && (
+        <div>
+          <h2>Amounts:</h2>
+          <table className="result-table">
+            <thead>
+              <tr>
+                <th>Address</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {amounts.map((amount, index) => (
+                <tr key={index}>
+                  <td>{addresses[index]}</td>
+                  <td>{amount} TIA</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

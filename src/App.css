@@ -12,6 +12,14 @@ body{
   margin-bottom: 10px;
 }
 
+.token-amount-lookup textarea {
+  width: 100%;
+  height: 100px; /* Adjust the height as needed */
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+
 .token-amount-lookup input {
   padding: 10px; /* Increase the padding to make the text box bigger */
   margin-left: 5px;
@@ -94,4 +102,37 @@ body{
 .header h1 {
   font-size: 48px;
   font-weight: bold;
+}
+
+.token-amount-lookup ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.token-amount-lookup li {
+  margin-bottom: 5px;
+}
+
+
+
+.result-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 10px; /* Increase the spacing as needed */
+  margin-top: 10px;
+}
+
+.result-table th,
+.result-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.result-table th {
+  background-color: #f2f2f2;
+}
+
+.result-table td:last-child {
+  text-align: right;
 }
